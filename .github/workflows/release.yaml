@@ -1,0 +1,43 @@
+name: Build and release Systemd sysext images
+on:
+  push:
+    tags:
+      - '*'
+
+env:
+  RUNC_VERSION: v1.2.0-rc.2
+  CONTAINERD_VERSION: 2.0.0-rc.3
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    permissions:
+      # allow the action to create a release
+      contents: write
+    steps:
+      # checkout the sources
+      - uses: actions/checkout@v4
+
+      # prepare build host
+      - name: install prerequisites
+        run: |
+          set -euxo pipefail
+
+          sudo apt update -qq && sudo apt install -yqq \
+            curl \
+            jq \
+            squashfs-tools \
+            xz-utils \
+            gawk
+
+      - name: build release artifacts
+        run: |
+          TAG=${{ github.ref_name }} ./create_containerd_sysext.sh $CONTAINERD_VERSION containerd-nine
+
+      - name: create a new latest release with all artifacts
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            SHA256SUMS
+            *.raw
+            *.conf
