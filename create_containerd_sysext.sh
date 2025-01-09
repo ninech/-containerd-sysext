@@ -2,7 +2,7 @@
 set -euo pipefail
 
 export ARCH="${ARCH-amd64}"
-export RUNC_VERSION="${RUNC_VERSION-v1.2.0-rc.1}"
+export RUNC_VERSION="${RUNC_VERSION-v1.2.4}"
 SCRIPTFOLDER="$(dirname "$(readlink -f "$0")")"
 ONLY_CONTAINERD="${ONLY_CONTAINERD:-0}"
 

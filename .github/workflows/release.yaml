@@ -5,8 +5,8 @@ on:
       - '*'
 
 env:
-  RUNC_VERSION: v1.2.0-rc.2
-  CONTAINERD_VERSION: 2.0.0-rc.3
+  RUNC_VERSION: v1.2.4
+  CONTAINERD_VERSION: 2.0.1
 
 jobs:
   build:
